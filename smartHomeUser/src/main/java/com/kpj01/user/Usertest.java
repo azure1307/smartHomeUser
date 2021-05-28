@@ -1,6 +1,8 @@
 package com.kpj01.user;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 public class Usertest {
@@ -13,7 +15,7 @@ public class Usertest {
 		String PASSWORD = "hi123456";
 
 		Connection conn=null;
-
+		PreparedStatement pstmt;
 
 		try {
 			Class.forName(DRIVER_NAME);
@@ -31,7 +33,18 @@ public class Usertest {
 				e.printStackTrace();
 			}
 		}
-
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			System.out.println("conn successed...");
+			String sql="insert into users(userId, userpw, username,userphone,useraddsi,useraddgu,useradddong,useradddetail,userbirth,usernick) values('test1','test2','test3','test4','test5','test6','test7','test8','test9','test10')";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 }
 
