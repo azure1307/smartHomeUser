@@ -43,19 +43,6 @@ public class UserDAOimpl implements UserDAO {
 		}
 	}
 	
-		/*// insert test 
-		try {  
-			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			System.out.println("conn successed...");
-			String sql="insert into users(userId, userpw, username,userphone,useraddsi,useraddgu,useradddong,useradddetail,userbirth,usernick) values('test1','test2','test3','test4','test5','test6','test7','test8','test9','test10')";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	*/
-
 	
 	@Override
 	public int insert(UserVO vo) {
@@ -224,7 +211,7 @@ public class UserDAOimpl implements UserDAO {
 		System.out.println(" ===== UserDAOimpl의 selectOne() =====");
 		System.out.println("vo : " + vo);
 		
-		UserVO uvo = new UserVO();
+		UserVO vo1 = new UserVO();
 		
 		try {
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
@@ -232,22 +219,22 @@ public class UserDAOimpl implements UserDAO {
 			
 			String sql = "select * from users where userNum=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, vo.getUserNum());
+			pstmt.setInt(1, vo1.getUserNum());
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
-				uvo.setUserNum(rs.getInt("userNum"));
-				uvo.setUserId(rs.getString("userId"));
-				uvo.setUserPw(rs.getString("userPw"));
-				uvo.setUserName(rs.getString("userName"));
-				uvo.setUserPhone(rs.getString("userPhone"));
-				uvo.setUserAddSi(rs.getString("userAddSi"));
-				uvo.setUserAddGu(rs.getString("userAddGu"));
-				uvo.setUserAddDong(rs.getString("userAddDong"));
-				uvo.setUserAddDetail(rs.getString("userAddDetail"));
-				uvo.setUserBirth(rs.getString("userBirth"));
-				uvo.setUserAge(rs.getInt("userAge"));
-				uvo.setUserNick(rs.getString("userNick"));
+				vo1.setUserNum(rs.getInt("userNum"));
+				vo1.setUserId(rs.getString("userId"));
+				vo1.setUserPw(rs.getString("userPw"));
+				vo1.setUserName(rs.getString("userName"));
+				vo1.setUserPhone(rs.getString("userPhone"));
+				vo1.setUserAddSi(rs.getString("userAddSi"));
+				vo1.setUserAddGu(rs.getString("userAddGu"));
+				vo1.setUserAddDong(rs.getString("userAddDong"));
+				vo1.setUserAddDetail(rs.getString("userAddDetail"));
+				vo1.setUserBirth(rs.getString("userBirth"));
+				vo1.setUserAge(rs.getInt("userAge"));
+				vo1.setUserNick(rs.getString("userNick"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -274,7 +261,7 @@ public class UserDAOimpl implements UserDAO {
 				}
 			}
 		}
-		return uvo;
+		return vo1;
 	}
 
 	
@@ -292,19 +279,19 @@ public class UserDAOimpl implements UserDAO {
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
-				UserVO uvo = new UserVO();
-				uvo.setUserNum(rs.getInt("userNum"));
-				uvo.setUserId(rs.getString("userId"));
-				uvo.setUserPw(rs.getString("userPw"));
-				uvo.setUserName(rs.getString("userName"));
-				uvo.setUserPhone(rs.getString("userPhone"));
-				uvo.setUserAddSi(rs.getString("userAddSi"));
-				uvo.setUserAddGu(rs.getString("userAddGu"));
-				uvo.setUserAddDong(rs.getString("userAddDong"));
-				uvo.setUserAddDetail(rs.getString("userAddDetail"));
-				uvo.setUserBirth(rs.getString("userBirth"));
-				uvo.setUserAge(rs.getInt("userAge"));
-				uvo.setUserNick(rs.getString("userNick"));
+				UserVO vo = new UserVO();
+				vo.setUserNum(rs.getInt("userNum"));
+				vo.setUserId(rs.getString("userId"));
+				vo.setUserPw(rs.getString("userPw"));
+				vo.setUserName(rs.getString("userName"));
+				vo.setUserPhone(rs.getString("userPhone"));
+				vo.setUserAddSi(rs.getString("userAddSi"));
+				vo.setUserAddGu(rs.getString("userAddGu"));
+				vo.setUserAddDong(rs.getString("userAddDong"));
+				vo.setUserAddDetail(rs.getString("userAddDetail"));
+				vo.setUserBirth(rs.getString("userBirth"));
+				vo.setUserAge(rs.getInt("userAge"));
+				vo.setUserNick(rs.getString("userNick"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -353,20 +340,20 @@ public class UserDAOimpl implements UserDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				UserVO uvo = new UserVO();
-				uvo.setUserNum(rs.getInt("userNum"));
-				uvo.setUserId(rs.getString("userId"));
-				uvo.setUserPw(rs.getString("userPw"));
-				uvo.setUserName(rs.getString("userName"));
-				uvo.setUserPhone(rs.getString("userPhone"));
-				uvo.setUserAddSi(rs.getString("userAddSi"));
-				uvo.setUserAddGu(rs.getString("userAddGu"));
-				uvo.setUserAddDong(rs.getString("userAddDong"));
-				uvo.setUserAddDetail(rs.getString("userAddDetail"));
-				uvo.setUserBirth(rs.getString("userBirth"));
-				uvo.setUserAge(rs.getInt("userAge"));
-				uvo.setUserNick(rs.getString("userNick"));
-				list.add(uvo);
+				UserVO vo = new UserVO();
+				vo.setUserNum(rs.getInt("userNum"));
+				vo.setUserId(rs.getString("userId"));
+				vo.setUserPw(rs.getString("userPw"));
+				vo.setUserName(rs.getString("userName"));
+				vo.setUserPhone(rs.getString("userPhone"));
+				vo.setUserAddSi(rs.getString("userAddSi"));
+				vo.setUserAddGu(rs.getString("userAddGu"));
+				vo.setUserAddDong(rs.getString("userAddDong"));
+				vo.setUserAddDetail(rs.getString("userAddDetail"));
+				vo.setUserBirth(rs.getString("userBirth"));
+				vo.setUserAge(rs.getInt("userAge"));
+				vo.setUserNick(rs.getString("userNick"));
+				list.add(vo);
 			}
 			
 		} catch (SQLException e) {

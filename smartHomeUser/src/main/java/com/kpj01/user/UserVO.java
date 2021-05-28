@@ -14,6 +14,8 @@ public class UserVO {
 	private String userBirth;
 	private int userAge;
 	private String userNick;
+	
+	
 	public int getUserNum() {
 		return userNum;
 	}
