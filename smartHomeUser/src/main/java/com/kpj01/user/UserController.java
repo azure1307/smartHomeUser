@@ -49,21 +49,12 @@ public class UserController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("user/u_join.jsp");
 			rd.forward(request, response);
 		} 
+		//회원 가입 등록 완료
 		else if (sPath.equals("/u_joinOK.do")) {
 			System.out.println("----- u_joinOK.do ----");
 
 			UserVO vo = new UserVO();
 			UserDAO dao = new UserDAOimpl();
-			
-			/* System.out.println(request.getParameter("contentTitle"));
-			// System.out.println(request.getParameter("contentDirector"));
-			System.out.println(request.getParameter("contentPoint"));
-			System.out.println(request.getParameter("contentReview"));
-			System.out.println(request.getParameter("contentPeopleName"));
-			System.out.println(request.getParameter("contentRating"));
-			System.out.println(request.getParameter("contentRecommend"));
-			System.out.println(request.getParameter("contentSnack"));
-			*/
 			
 			vo.setUserId(request.getParameter("userId"));
 			vo.setUserPw(request.getParameter("userPw"));
@@ -76,23 +67,102 @@ public class UserController extends HttpServlet {
 			vo.setUserBirth(request.getParameter("userBirth"));
 			vo.setUserAge(Integer.parseInt(request.getParameter("userAge")));
 			vo.setUserNick(request.getParameter("userNick"));
+			vo.setDecibel(Double.parseDouble(request.getParameter("decibel")));
+			vo.setUserState(Integer.parseInt(request.getParameter("userState")));
 
 			int result = dao.insert(vo);
 			System.out.println("insert result:" + result);
-
-			if (result == 1) {
-				// response.sendRedirect("u_login.do");
-			} else {
-				// response.sendRedirect("u_join.do");
+			
+			if (result == 1) { //회원 가입 성공시 '로그인이 됐다'고 써진 페이지로 이동.
+				response.sendRedirect("u_login.do");
+			} else { //회원 가입 성공 X => 다시 가입 페이지로 이동.
+				response.sendRedirect("u_join.do");
 			}
+		}
+		// 회원 정보 수정
+		else if (sPath.equals("/u_update.do")) {
+			// 여기선 삭제할 행 번호 1개를 선택하는 로직만.
+			System.out.println("----- u_update.do ----");
+
+			UserVO vo = new UserVO();
+			UserDAO dao = new UserDAOimpl();
+			vo.setUserNum(Integer.parseInt(request.getParameter("userNum")));
+
+			UserVO vo2 = dao.selectOne(vo);
+
+			request.setAttribute("vo2", vo2);
+
+			RequestDispatcher rd = request.getRequestDispatcher("user/u_update.jsp");
+			rd.forward(request, response);
+		}
+		
+		else if (sPath.equals("/u_updateOK.do")) {
+			// else if (sPath.equals("/m_updateOK.do")) {
+			System.out.println("----- m_update.do ----");
+			// 객체 1개 선택 dao.update해주기 .update가 수정하는 함수니까.
+			UserVO vo = new UserVO();
+			UserDAO dao = new UserDAOimpl();
+
+			vo.setUserNum(Integer.parseInt(request.getParameter("userNum")));
+			vo.setUserId(request.getParameter("userId"));
+			vo.setUserPw(request.getParameter("userPw"));
+			vo.setUserName(request.getParameter("userName"));
+			vo.setUserPhone(request.getParameter("userPhone"));
+			vo.setUserAddSi(request.getParameter("userAddSi"));
+			vo.setUserAddGu(request.getParameter("userAddGu"));
+			vo.setUserAddDong(request.getParameter("userAddDong"));
+			vo.setUserAddDetail(request.getParameter("userAddDetail"));
+			vo.setUserBirth(request.getParameter("userBirth"));
+			vo.setUserAge(Integer.parseInt(request.getParameter("userAge")));
+			vo.setUserNick(request.getParameter("userNick"));
+			vo.setDecibel(Double.parseDouble(request.getParameter("decibel")));
+			vo.setUserState(Integer.parseInt(request.getParameter("userState")));
+
+			int result = dao.update(vo);
+			System.out.println("update result : " + result);
+
+			if (result == 1) { // 수정 성공 => 메인페이지로 이동
+				response.sendRedirect("index.do");
+			} else { // 실패
+				response.sendRedirect("u_update.do");
+			}
+		}
+		//로그인
+		else if (sPath.equals("/u_loginOK.do")) {
+			System.out.println(request.getParameter("userId"));
+			System.out.println(request.getParameter("userPw"));
+
+			UserVO vo = new UserVO();
+			UserDAO dao = new UserDAOimpl();
+			vo.setUserId(request.getParameter("userId"));
+			vo.setUserPw(request.getParameter("userPw"));
+			
+			// result = successed / failed로 나올 것
+			String result = dao.loginOK(vo); 
+
+			if (result.equals("successed")) {
+				// login = successed / failed
+				request.getSession().setAttribute("login", result); 
+				request.getSession().setAttribute("userID", vo.getUserId());
+				
+				request.getSession().setMaxInactiveInterval(5000);
+				System.out.println(request.getSession().getMaxInactiveInterval());
+			}
+			// failed를 화면에 출력
+			request.getSession().setAttribute("login", result); 
+			response.sendRedirect("index.do");
+		} else if (sPath.equals("/u_logout.do")) {
+			
+			// 모든 세션 제거 => 모든세션 제거해 로그아웃
+			request.getSession().invalidate(); 
+			response.sendRedirect("index.do");
 		}
 		
 		
 		
-		
-		
-	}
+	}//end
 
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

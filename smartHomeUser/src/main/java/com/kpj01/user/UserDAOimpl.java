@@ -51,12 +51,13 @@ public class UserDAOimpl implements UserDAO {
 		
 		int flag = 0;
 		
-		try {  
+		try {  /*private double decibel;
+				private int userState;*/
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			System.out.println(" ~ connect successed! ~ ");
 			String sql="insert into users(userId, userpw, username, userphone, useraddsi,"
-					+ "useraddgu, useradddong, useradddetail, userbirth, usernick) "
-					+ "values('?','?','?','?','?','?','?','?','?','?')";
+					+ "useraddgu, useradddong, useradddetail, userbirth, usernick, decibel, userState) "
+					+ "values('?','?','?','?','?','?','?','?','?','?','?','?')";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getUserId());
@@ -70,6 +71,8 @@ public class UserDAOimpl implements UserDAO {
 			pstmt.setString(9, vo.getUserBirth());
 			pstmt.setInt(10, vo.getUserAge());
 			pstmt.setString(10, vo.getUserNick());
+			pstmt.setDouble(10, vo.getDecibel());
+			pstmt.setInt(10, vo.getUserState());
 			//pstmt.executeUpdate();
 			flag = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -113,10 +116,11 @@ public class UserDAOimpl implements UserDAO {
 		try {  
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			System.out.println(" ~ connect successed! ~ ");
-			
+			/*private double decibel;
+			private int userState;*/
 			String sql="update users set userId=?, userPw=?, userName=?, "
 					+ "userPhone=?, userAddSi=?, userAddGu=?, userAddDong=?, "
-					+ "userAddDetail=?, userBirth=?, usernick=? where userNum=?";
+					+ "userAddDetail=?, userBirth=?, usernick=?, decibel=?, userState=? where userNum=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getUserId());
 			pstmt.setString(2, vo.getUserPw());
@@ -130,6 +134,8 @@ public class UserDAOimpl implements UserDAO {
 			//pstmt.setInt(10, vo.getUserAge());
 			pstmt.setString(10, vo.getUserNick());
 			pstmt.setInt(11, vo.getUserNum());
+			pstmt.setDouble(12, vo.getDecibel());
+			pstmt.setInt(13, vo.getUserState());
 			//pstmt.executeUpdate();
 			flag = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -221,7 +227,8 @@ public class UserDAOimpl implements UserDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo1.getUserNum());
 			rs = pstmt.executeQuery(); 
-			
+			/*private double decibel;
+			private int userState;*/
 			while(rs.next()) {
 				vo1.setUserNum(rs.getInt("userNum"));
 				vo1.setUserId(rs.getString("userId"));
@@ -235,6 +242,8 @@ public class UserDAOimpl implements UserDAO {
 				vo1.setUserBirth(rs.getString("userBirth"));
 				vo1.setUserAge(rs.getInt("userAge"));
 				vo1.setUserNick(rs.getString("userNick"));
+				vo1.setDecibel(rs.getDouble("decibel"));
+				vo1.setUserState(rs.getInt("userState"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -279,6 +288,8 @@ public class UserDAOimpl implements UserDAO {
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
+				/*private double decibel;
+				private int userState;*/
 				UserVO vo = new UserVO();
 				vo.setUserNum(rs.getInt("userNum"));
 				vo.setUserId(rs.getString("userId"));
@@ -292,6 +303,8 @@ public class UserDAOimpl implements UserDAO {
 				vo.setUserBirth(rs.getString("userBirth"));
 				vo.setUserAge(rs.getInt("userAge"));
 				vo.setUserNick(rs.getString("userNick"));
+				vo.setDecibel(rs.getDouble("decibel"));
+				vo.setUserState(rs.getInt("userState"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -353,6 +366,8 @@ public class UserDAOimpl implements UserDAO {
 				vo.setUserBirth(rs.getString("userBirth"));
 				vo.setUserAge(rs.getInt("userAge"));
 				vo.setUserNick(rs.getString("userNick"));
+				vo.setDecibel(rs.getDouble("decibel"));
+				vo.setUserState(rs.getInt("userState"));
 				list.add(vo);
 			}
 			
