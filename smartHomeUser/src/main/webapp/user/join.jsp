@@ -11,7 +11,7 @@
 	<h1> Join us! (회원가입) </h1>
 	<jsp:include page="../index.jsp"></jsp:include>
 	
-	<form action="u_joinOK.do" method="post" encType="multipart/form-data">
+	<form action="u_joinOK.do" method="post">
 		<table border="1">
 			<tr>
 				<td>ID</td>
@@ -20,7 +20,7 @@
 			
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="password" name="userPw" placeholder="비밀번호를 입력하세요." value="testPW"></td>
+				<td><input type="password" name="userPw" placeholder="비밀번호를 입력하세요." value="1234"></td>
 			</tr>
 			
 			<tr>
@@ -29,7 +29,7 @@
 			</tr>
 			<tr>
 				<td>전화번호</td>
-				<td><input type="text" name="userPhone" placeholder="전화번호를 입력하세요" value="testPhonNum"></td>
+				<td><input type="text" name="userPhone" placeholder="전화번호를 입력하세요" value="010-1234-4567"></td>
 			</tr>
 			<tr>
 				<td> 살고 있는 지역의 "시" (ex. 서울시) </td>
@@ -49,11 +49,11 @@
 			</tr>
 			<tr>
 				<td>생년월일</td>
-				<td><input type="text" name="userBirth" placeholder="생년월일을 입력하세요" value="testBday"></td>
+				<td><input type="date" name="userBirth" placeholder="생년월일을 입력하세요" value="2000-01-01"></td>
 			</tr>
 			<tr>
 				<td>현재 나이를 입력해주세요.</td>
-				<td><input type="number" name="userAge" placeholder="나이" value="100"></td>
+				<td><input type="text" name="userAge" placeholder="나이" value="100"></td>
 			</tr>
 			<tr>
 				<td>닉네임</td>

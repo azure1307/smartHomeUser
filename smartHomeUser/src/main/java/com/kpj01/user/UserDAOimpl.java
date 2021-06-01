@@ -13,7 +13,7 @@ public class UserDAOimpl implements UserDAO {
 	
 	// DB name : smarthome
 	String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://192.168.0.9:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
+	String URL = "jdbc:mysql://192.168.0.17:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
 	String USER_NAME = "smart";
 	String PASSWORD = "hi123456";
 	
@@ -56,8 +56,8 @@ public class UserDAOimpl implements UserDAO {
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			System.out.println(" ~ connect successed! ~ ");
 			String sql="insert into users(userId, userpw, username, userphone, useraddsi,"
-					+ "useraddgu, useradddong, useradddetail, userbirth, usernick, decibel, userState) "
-					+ "values('?','?','?','?','?','?','?','?','?','?','?','?')";
+					+ "useraddgu, useradddong, useradddetail, userbirth, usernick, userage) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getUserId());
@@ -69,10 +69,8 @@ public class UserDAOimpl implements UserDAO {
 			pstmt.setString(7, vo.getUserAddDong());
 			pstmt.setString(8, vo.getUserAddDetail());
 			pstmt.setString(9, vo.getUserBirth());
-			pstmt.setInt(10, vo.getUserAge());
 			pstmt.setString(10, vo.getUserNick());
-			pstmt.setDouble(10, vo.getDecibel());
-			pstmt.setInt(10, vo.getUserState());
+			pstmt.setInt(11, vo.getUserAge());
 			//pstmt.executeUpdate();
 			flag = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -120,7 +118,7 @@ public class UserDAOimpl implements UserDAO {
 			private int userState;*/
 			String sql="update users set userId=?, userPw=?, userName=?, "
 					+ "userPhone=?, userAddSi=?, userAddGu=?, userAddDong=?, "
-					+ "userAddDetail=?, userBirth=?, usernick=?, decibel=?, userState=? where userNum=?";
+					+ "userAddDetail=?, userBirth=?, usernick=?, userage=? where userNum=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getUserId());
 			pstmt.setString(2, vo.getUserPw());
@@ -131,11 +129,9 @@ public class UserDAOimpl implements UserDAO {
 			pstmt.setString(7, vo.getUserAddDong());
 			pstmt.setString(8, vo.getUserAddDetail());
 			pstmt.setString(9, vo.getUserBirth());
-			//pstmt.setInt(10, vo.getUserAge());
 			pstmt.setString(10, vo.getUserNick());
-			pstmt.setInt(11, vo.getUserNum());
-			pstmt.setDouble(12, vo.getDecibel());
-			pstmt.setInt(13, vo.getUserState());
+			pstmt.setInt(11, vo.getUserAge());
+			pstmt.setInt(12, vo.getUserNum());
 			//pstmt.executeUpdate();
 			flag = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -177,7 +173,7 @@ public class UserDAOimpl implements UserDAO {
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			System.out.println(" ~ connect successed! ~ ");
 			
-			String sql="delete from users where userNum=?";
+			String sql="update users set userstate=1 where userNum=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getUserNum());
 			//pstmt.executeUpdate();
@@ -225,7 +221,7 @@ public class UserDAOimpl implements UserDAO {
 			
 			String sql = "select * from users where userNum=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, vo1.getUserNum());
+			pstmt.setInt(1, vo.getUserNum());
 			rs = pstmt.executeQuery(); 
 			/*private double decibel;
 			private int userState;*/
@@ -471,11 +467,11 @@ public class UserDAOimpl implements UserDAO {
 			System.out.println(" connection successed! ");
 			// private String memberId;
 			// private String memberPw;
-			String sql = "select * from users where userId=? and userPw=?";
+			String sql = "select * from users where userId=? and userPw=? and userstate=0";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getUserId());
 			pstmt.setString(2, vo.getUserPw());
-
+			
 			rs = pstmt.executeQuery(); 
 			// 로그인 성공할 경우 - while문이 돌아간다 => id,pw 존재한다.
 			while (rs.next()) { 
@@ -509,5 +505,63 @@ public class UserDAOimpl implements UserDAO {
 		return result;
 	}
 	
+	@Override
+	public UserVO selectById(UserVO vo) {
+		System.out.println(" ===== UserDAOimpl의 selectById() =====");
+		System.out.println("vo : " + vo);
+		
+		UserVO vo2 = new UserVO();
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			System.out.println(" ~ connect successed! ~ ");
+			
+			String sql = "select * from users where userID=? and userState=0";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getUserId());
+			rs = pstmt.executeQuery(); 
+			
+			while(rs.next()) {
+				vo2.setUserNum(rs.getInt("userNum"));
+				vo2.setUserId(rs.getString("userId"));
+				vo2.setUserPw(rs.getString("userPw"));
+				vo2.setUserName(rs.getString("userName"));
+				vo2.setUserPhone(rs.getString("userPhone"));
+				vo2.setUserAddSi(rs.getString("userAddSi"));
+				vo2.setUserAddGu(rs.getString("userAddGu"));
+				vo2.setUserAddDong(rs.getString("userAddDong"));
+				vo2.setUserAddDetail(rs.getString("userAddDetail"));
+				vo2.setUserBirth(rs.getString("userBirth"));
+				vo2.setUserAge(rs.getInt("userAge"));
+				vo2.setUserNick(rs.getString("userNick"));
+				vo2.setDecibel(rs.getDouble("decibel"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		System.out.println("vo : " + vo2);
+		return vo2;
+	}
 	
 }//end class

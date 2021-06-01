@@ -10,6 +10,7 @@
 <body>
 	<h1>로그인에 ${sessionScope.login} 했습니다!</h1>
 	<c:if test='${sessionScope.login != "successed"}'>
+
 		<form action="u_loginOK.do" method="post">
 			<table border="1">
 				<tr>

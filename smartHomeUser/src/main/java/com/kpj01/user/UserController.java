@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class UserController
  */
-@WebServlet({"/index.do", "/u_join.do", "/u_login.do", "/c_cs.do"})
+@WebServlet({"/index.do", "/u_join.do", "/u_joinOK.do", "/u_login.do", "/u_loginOK.do", "/c_cs.do", "/u_update.do", "/u_updateOK.do"})
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,21 +41,16 @@ public class UserController extends HttpServlet {
 			// 원하는 페이지(sPath)로 이동시켜주고 싶을 때
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
-		}  
-		// 회원가입창 - insert.do
-		else if (sPath.equals("/u_join.do")) {
+		} else if (sPath.equals("/u_join.do")) {
 			System.out.println("==== 현재 u_join.jsp 입니다.====");
 
-			RequestDispatcher rd = request.getRequestDispatcher("user/u_join.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("user/join.jsp");
 			rd.forward(request, response);
-		} 
-		//회원 가입 등록 완료
-		else if (sPath.equals("/u_joinOK.do")) {
+		} else if (sPath.equals("/u_joinOK.do")) {
 			System.out.println("----- u_joinOK.do ----");
 
 			UserVO vo = new UserVO();
 			UserDAO dao = new UserDAOimpl();
-			
 			vo.setUserId(request.getParameter("userId"));
 			vo.setUserPw(request.getParameter("userPw"));
 			vo.setUserName(request.getParameter("userName"));
@@ -67,9 +62,8 @@ public class UserController extends HttpServlet {
 			vo.setUserBirth(request.getParameter("userBirth"));
 			vo.setUserAge(Integer.parseInt(request.getParameter("userAge")));
 			vo.setUserNick(request.getParameter("userNick"));
-			vo.setDecibel(Double.parseDouble(request.getParameter("decibel")));
-			vo.setUserState(Integer.parseInt(request.getParameter("userState")));
 
+//			int result = 0;
 			int result = dao.insert(vo);
 			System.out.println("insert result:" + result);
 			
@@ -78,25 +72,23 @@ public class UserController extends HttpServlet {
 			} else { //회원 가입 성공 X => 다시 가입 페이지로 이동.
 				response.sendRedirect("u_join.do");
 			}
-		}
-		// 회원 정보 수정
-		else if (sPath.equals("/u_update.do")) {
+		} else if (sPath.equals("/u_update.do")) {
 			// 여기선 삭제할 행 번호 1개를 선택하는 로직만.
 			System.out.println("----- u_update.do ----");
 
 			UserVO vo = new UserVO();
 			UserDAO dao = new UserDAOimpl();
-			vo.setUserNum(Integer.parseInt(request.getParameter("userNum")));
+			String num = String.valueOf(request.getSession().getAttribute("userNum"));
+			System.out.println(num);
+			vo.setUserNum(Integer.parseInt(num));
 
 			UserVO vo2 = dao.selectOne(vo);
 
 			request.setAttribute("vo2", vo2);
-
-			RequestDispatcher rd = request.getRequestDispatcher("user/u_update.jsp");
+			System.out.println(vo2.toString());
+			RequestDispatcher rd = request.getRequestDispatcher("user/update.jsp");
 			rd.forward(request, response);
-		}
-		
-		else if (sPath.equals("/u_updateOK.do")) {
+		} else if (sPath.equals("/u_updateOK.do")) {
 			// else if (sPath.equals("/m_updateOK.do")) {
 			System.out.println("----- m_update.do ----");
 			// 객체 1개 선택 dao.update해주기 .update가 수정하는 함수니까.
@@ -115,20 +107,23 @@ public class UserController extends HttpServlet {
 			vo.setUserBirth(request.getParameter("userBirth"));
 			vo.setUserAge(Integer.parseInt(request.getParameter("userAge")));
 			vo.setUserNick(request.getParameter("userNick"));
-			vo.setDecibel(Double.parseDouble(request.getParameter("decibel")));
-			vo.setUserState(Integer.parseInt(request.getParameter("userState")));
 
 			int result = dao.update(vo);
 			System.out.println("update result : " + result);
 
 			if (result == 1) { // 수정 성공 => 메인페이지로 이동
-				response.sendRedirect("index.do");
+				request.setAttribute("uresult", 1); 
+				response.sendRedirect("u_update.do");
 			} else { // 실패
+				request.getSession().setAttribute("uresult", 0); 
 				response.sendRedirect("u_update.do");
 			}
-		}
-		//로그인
-		else if (sPath.equals("/u_loginOK.do")) {
+			
+		} else if (sPath.equals("/u_login.do")) {
+			RequestDispatcher rd = request.getRequestDispatcher("user/login.jsp");
+			rd.forward(request, response);
+			
+		} else if (sPath.equals("/u_loginOK.do")) {
 			System.out.println(request.getParameter("userId"));
 			System.out.println(request.getParameter("userPw"));
 
@@ -139,11 +134,14 @@ public class UserController extends HttpServlet {
 			
 			// result = successed / failed로 나올 것
 			String result = dao.loginOK(vo); 
-
+			
+			System.out.println(result);
 			if (result.equals("successed")) {
+				vo = dao.selectById(vo);
 				// login = successed / failed
 				request.getSession().setAttribute("login", result); 
 				request.getSession().setAttribute("userID", vo.getUserId());
+				request.getSession().setAttribute("userNum", vo.getUserNum());
 				
 				request.getSession().setMaxInactiveInterval(5000);
 				System.out.println(request.getSession().getMaxInactiveInterval());
@@ -168,6 +166,7 @@ public class UserController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		doGet(request, response);
 	}
 
