@@ -30,9 +30,6 @@
 			</table>
 		</form>
 	</c:if>
-	<c:if test='${sessionScope.login == "successed"}'>
-		<h1>${sessionScope.userId}님어서오세요</h1>
-		<a href="u_logout.do">logout</a>
-	</c:if>
+	
 </body>
 </html>
