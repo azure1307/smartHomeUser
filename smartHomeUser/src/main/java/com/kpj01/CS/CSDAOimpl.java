@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CSDAOimpl implements CSDAO {
 	private final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
-	private final String URL = "jdbc:mysql://192.168.0.17:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
+	private final String URL = "jdbc:mysql://192.168.0.20:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
 	private final String USER_NAME = "smart";
 	private final String PASSWORD = "hi123456";
 
@@ -38,24 +38,26 @@ public class CSDAOimpl implements CSDAO {
 		}
 	}
 	@Override
-	public CSVO selectOne(CSVO vo) {
+	public List<CSVO> selectOne(String csQuestion) {
 		System.out.println("selectOne()...");
-		System.out.println(vo);
+		System.out.println("csQuestion:"+csQuestion);
+		List<CSVO> list = new ArrayList<CSVO>();
 
-		CSVO vo2 = new CSVO();
 		try {
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 			System.out.println("conn successed....");
 
-			String sql = "select * from cs where csnum=?";
+			String sql = "select * from cs where csquestion like ?";
+			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, vo.getCSNum());
-
+			pstmt.setString(1, "%"+csQuestion+"%");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				CSVO vo2 = new CSVO();
 				vo2.setCSNum(rs.getInt("CSNum"));
 				vo2.setCsQuestion(rs.getString("csQuestion"));
 				vo2.setCsAnswer(rs.getString("csAnswer"));
+				list.add(vo2);
 			}
 
 		} catch (SQLException e) {
@@ -84,7 +86,8 @@ public class CSDAOimpl implements CSDAO {
 			}
 		}
 
-		return vo2;
+		return list;
+		
 	}
 
 	@Override
