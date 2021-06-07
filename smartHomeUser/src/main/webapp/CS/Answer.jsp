@@ -8,17 +8,19 @@
 <title>CS</title>
 </head>
 <body>
-<h1>CS</h1><hr>
-<form action="csAnswer.do">
-</form>
-	<c:forEach var="vo" items="${list}">
-			
-			<tr><input type="button" value="${vo.csQuestion}"></tr>
-			
-		
+<table>
+			<tr>
+				<td></td><td>NUM${vo2.CSNum}</td>
+			</tr>
+			<tr>
+				<td>Q</td>
+				<td>${vo2.csQuestion}</td>
+			</tr>
+			<tr>
+				<td>A</td>
+				<td>${vo2.csAnswer}</td>
 
-
-	</c:forEach>
-
+			</tr>
+</table>			
 </body>
 </html>

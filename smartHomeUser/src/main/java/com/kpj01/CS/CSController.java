@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class CSController
  */
-@WebServlet({ "/CSquestion.do", "/CSAnswer.do" })
+@WebServlet({ "/CSquestion.do", "/CSanswer.do" })
 public class CSController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,18 +32,21 @@ public class CSController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String sPath = request.getServletPath();
 		System.out.println("sPath:"+sPath);
-		if(sPath.equals("/CSquestion.do")) {
-			CSDAO dao = new CSDAOimpl();
-			
-			List<CSVO> list = dao.selectAll();
-			for (CSVO x : list) {
-				System.out.println(x);
+		
+		if (sPath.equals("/CSquestion.do")) {
+			System.out.println("new");
+			String path = "C:/CS.py";
+			String scriptCommand[] = { "python", path }; // shell script
+
+			ProcessBuilder builder = new ProcessBuilder(scriptCommand);
+			try {
+				builder.start();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			request.setAttribute("list", list);
-				
-			RequestDispatcher rd = request.getRequestDispatcher("/CS/cs_main.jsp");
-			rd.forward(request, response);		
+			
 		}
+		
 	}
 
 	/**
