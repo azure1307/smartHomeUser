@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.kpj01.CS;
 
 import java.sql.Connection;
@@ -286,4 +285,3 @@ public class CSDAOimpl implements CSDAO {
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/u-joy-happy/smartHomeUser.git

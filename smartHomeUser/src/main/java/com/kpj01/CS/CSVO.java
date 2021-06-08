@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.kpj01.CS;
 
 public class CSVO {
@@ -68,4 +67,3 @@ public class CSVO {
 	
 	
 }
->>>>>>> branch 'master' of https://github.com/u-joy-happy/smartHomeUser.git

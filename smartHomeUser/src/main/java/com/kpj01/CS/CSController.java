@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.kpj01.CS;
 
 import java.io.IOException;
@@ -120,4 +119,3 @@ public class CSController extends HttpServlet {
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/u-joy-happy/smartHomeUser.git

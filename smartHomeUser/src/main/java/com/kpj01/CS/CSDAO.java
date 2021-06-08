@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.kpj01.CS;
 
 import java.util.List;
@@ -22,4 +21,3 @@ public interface CSDAO {
 	public List<CSVO> selectAll();
 	
 }
->>>>>>> branch 'master' of https://github.com/u-joy-happy/smartHomeUser.git
