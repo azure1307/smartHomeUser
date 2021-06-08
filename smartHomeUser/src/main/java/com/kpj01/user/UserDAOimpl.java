@@ -13,7 +13,7 @@ public class UserDAOimpl implements UserDAO {
 	
 	// DB name : smarthome
 	String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://192.168.0.17:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
+	String URL = "jdbc:mysql://192.168.0.20:3306/smarthome?useSSL=false&useUnicode=true&characterEncoding=euckr";
 	String USER_NAME = "smart";
 	String PASSWORD = "hi123456";
 	
