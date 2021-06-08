@@ -14,6 +14,10 @@ public class UserVO {
 	private String userBirth;
 	private int userAge;
 	private String userNick;
+	private double decibel;
+	private int userState;
+	
+	
 	public int getUserNum() {
 		return userNum;
 	}
@@ -92,6 +96,18 @@ public class UserVO {
 				+ ", userPhone=" + userPhone + ", userAddSi=" + userAddSi + ", userAddGu=" + userAddGu
 				+ ", userAddDong=" + userAddDong + ", userAddDetail=" + userAddDetail + ", userBirth=" + userBirth
 				+ ", userAge=" + userAge + ", userNick=" + userNick + "]";
+	}
+	public double getDecibel() {
+		return decibel;
+	}
+	public void setDecibel(double decibel) {
+		this.decibel = decibel;
+	}
+	public int getUserState() {
+		return userState;
+	}
+	public void setUserState(int userState) {
+		this.userState = userState;
 	}
 	
 	

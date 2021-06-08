@@ -14,7 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class UserController
  */
+<<<<<<< HEAD
 @WebServlet({"/index.do", "/u_join.do", "/u_joinOK.do", "/u_login.do", "/u_loginOK.do", "/c_cs.do", "/u_update.do", "/u_updateOK.do"})
+=======
+@WebServlet({"/index.do", "/u_join.do", "/u_joinOK.do", "/u_login.do", "/u_loginOK.do",
+	"/c_cs.do", "/u_update.do", "/u_updateOK.do", "/u_logout.do"})
+>>>>>>> branch 'master' of https://github.com/u-joy-happy/smartHomeUser.git
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

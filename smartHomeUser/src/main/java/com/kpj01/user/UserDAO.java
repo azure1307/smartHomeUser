@@ -21,6 +21,8 @@ public interface UserDAO {
 
 	public String loginOK(UserVO vo);
 	
+	public UserVO selectById(UserVO vo);
+	
 	
 	
 	
