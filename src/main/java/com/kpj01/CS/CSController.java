@@ -41,7 +41,7 @@ public class CSController extends HttpServlet {
 			}
 			request.setAttribute("list", list);
 				
-			RequestDispatcher rd = request.getRequestDispatcher("/CS/cs_main.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/CS/Question.jsp");
 			rd.forward(request, response);		
 		}
 	}
